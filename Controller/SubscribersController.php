@@ -29,7 +29,7 @@ class SubscribersController extends NewsletterAppController {
 	}
 	
 	public function subscribe(){
-		$this->layout = "public";
+		$this->layout = "admin";
 		if($this->request->is('post') === true & !empty($this->data)){
 			$data = $this->request->data;
 			//$this->Subscriber->Behaviors->attach('Mongodb.SqlCompatible');
@@ -62,7 +62,7 @@ class SubscribersController extends NewsletterAppController {
 	 */
 	
 	public function unsubscribe(){
-		$this->layout = "public";
+		$this->layout = "admin";
 		if($this->data) {
 			$subscriber = $this->Subscriber->find('first',array('conditions' => array('Subscriber.email' => $this->data['email'])));
          
@@ -93,6 +93,7 @@ class SubscribersController extends NewsletterAppController {
 	*/
 
 	public function manager_index() {
+		$this->layout = "admin";
 		$subscribers = $this->Subscriber->find('all');
 		$this->set('subscribers' , $subscribers);
 	}
@@ -103,6 +104,7 @@ class SubscribersController extends NewsletterAppController {
 	*/
 
 	public function manager_view($id = null) {
+		$this->layout = "admin";
 		$this->Subscriber->id = $id;
 		$this->set('subscriber', $this->Subscriber->read());
 	}
@@ -114,6 +116,7 @@ class SubscribersController extends NewsletterAppController {
 	*/
 	
 	public function manager_edit($id = null) {
+		$this->layout = "admin";
 		$this->Subscriber->id = $id;
 		
 		if ($this->request->is('get')) {

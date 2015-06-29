@@ -76,7 +76,7 @@ class NewslettersController extends NewsletterAppController {
 		$this->Newsletter->id = $id;
 		$this->set('newsletter', $this->Newsletter->read());
 		//counter increment 
-		//$this->Newsletter->incrementCounter();
+		$this->Newsletter->incrementCounter();
 	}
         
         
@@ -147,22 +147,23 @@ class NewslettersController extends NewsletterAppController {
 				$fileOK = $this->uploadFiles('newsletter', $this->data['Images']);
 				if(!array_key_exists('urls', $fileOK)) {
 					$this->Session->setFlash("File error");
-					debug($fileOK);
+					//debug($fileOK);
 				}
 			}		
 			$this->Newsletter->create();
 			$data = $this->data;
+			$data['Newsletter']['campaigns'] = json_encode($data['Newsletter']['campaigns']);
 			$data['Newsletter']['content'] = str_replace("#{imgpath}", "http://".env('HTTP_HOST')."/files/newsletter",$data['Newsletter']['content']);
 			$this->Newsletter->set($data);
 			$this->Newsletter->set(array(
 				"viewCounter" => 0,
 				"publishCounter" => 0, 
 				"published" => 0,
-				"campaigns" => $this->data['Campaign']['Campaign']
+				"campaigns" => $data['Newsletter']['campaigns']
 				));
 			if($this->Newsletter->save()) {
 				$this->Session->setFlash("Newsletter angelegt");
-				$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "index"));
+				$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "manager_index"));
 			} else {			
 				$this->Session->setFlash("newsletter konnte nicht angelegt werden");
 				$this->render();
@@ -219,11 +220,11 @@ class NewslettersController extends NewsletterAppController {
 			$this->Newsletter->set(array('publishCounter' => $counter, 'published' => 1));
 			$this->Newsletter->save();
 			
-			$this->Session->setFlash("Newsletter erfolgreich veröffentlicht");
-			$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "index"));
+			$this->Session->setFlash("Newsletter published successfully");
+			$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "manager_index"));
 		} else {
-			$this->Session->setFlash("Newsletter konnte nicht veröffentlicht werden");
-			$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "index"));
+			$this->Session->setFlash("Newsletter could not be published");
+			$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "manager_index"));
 		}
 	}
 	
@@ -251,8 +252,6 @@ class NewslettersController extends NewsletterAppController {
 		
 	}
 
-
-
 	
 	/* Helper Functions */
         
@@ -261,7 +260,7 @@ class NewslettersController extends NewsletterAppController {
 
 		//define chunk size;
 		$chunk_size = 1000;
-		$sleep = 1; //was ist hier sinnvoll?
+		$sleep = 1; //what makes sense here?
 		    
 		//send mail		
 		$email = new CakeEmail("smtp");

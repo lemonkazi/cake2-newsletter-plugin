@@ -21,7 +21,10 @@ class NewslettersController extends NewsletterAppController {
 	public $name = 'Newsletters';
         
     public $uses = array('Newsletter.Newsletter', 'Newsletter.Subscriber', 'Newsletter.Campaign');
-	
+    var $layout = 'admin';
+	 // public function beforeSave(){   
+  //       parent::beforeSave();
+  //   }
 
     /**
 	*
@@ -33,8 +36,8 @@ class NewslettersController extends NewsletterAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();		
 		$this->Auth->allow();
-		// if(!fileExistsInPath(APP.DS.'tmp'.DS.'newsletter_init.lock'))
-		// 	$this->init();
+		if(!fileExistsInPath(APP.DS.'tmp'.DS.'newsletter_init.lock'))
+			$this->init();
 
 	}
 
@@ -55,6 +58,7 @@ class NewslettersController extends NewsletterAppController {
 	} 
         
     public function index(){
+
         $newsletters = $this->Newsletter->find('all', array('conditions' => array('Newsletter.published' => '1')));
         $this-> set('newsletters', $newsletters);
     }
@@ -72,7 +76,7 @@ class NewslettersController extends NewsletterAppController {
 		$this->Newsletter->id = $id;
 		$this->set('newsletter', $this->Newsletter->read());
 		//counter increment 
-		$this->Newsletter->incrementCounter();
+		//$this->Newsletter->incrementCounter();
 	}
         
         
@@ -135,7 +139,8 @@ class NewslettersController extends NewsletterAppController {
 	*/
 	
 	public function manager_add(){
-		$this->set('campaigns',  $this->Campaign->find('list',array('fields' => array('Campaign.name'))));
+		$this->set('campaigns',  $this->Campaign->find('all',array('fields' => 'name')));
+		//$this->set('campaigns',  $this->Campaign->find('list',array('fields' => array('Campaign.name'))));
 		if($this->data){
 			//files 
 			if($this->data['Images']){
@@ -173,15 +178,18 @@ class NewslettersController extends NewsletterAppController {
 	public function manager_edit($newsid = null) {
 		$this->Newsletter->id = $newsid;	
 		if ($this->request->is('get')) {	
+			
+			$this->set('campaigns',  $this->Campaign->find('all',array('fields' => 'name')));
 			$this->request->data = $this->Newsletter->read();
-			$this->set('campaigns',  $this->Campaign->find('all',array('fields' => array('Campaign.name'))));
 			//debug($this->Campaign->find('all',array('fields' => array('Campaign.name'))));
 			//die;
 		 } else {
-		 	$this->Newsletter->Behaviors->attach('Mongodb.SqlCompatible');
-			if ($this->Newsletter->save($this->request->data)) {	
+		 		$data = $this->request->data;
+		 	$data['Newsletter']['campaigns'] = json_encode($data['Newsletter']['campaigns']);
+		 	//$this->Newsletter->Behaviors->attach('Mongodb.SqlCompatible');
+			if ($this->Newsletter->save($data)) {	
 				$this->Session->setFlash("Newsletter angelegt");
-				$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "index"));
+				$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "manager_index"));
 			} else {
 				$this->Session->setFlash("Newsletter konnte nicht angelegt werden");
 				$this->render();
@@ -234,11 +242,11 @@ class NewslettersController extends NewsletterAppController {
 		$this->Newsletter->id = $newsid;
 		
 		if($this->Newsletter->delete()) {
-			$this->Session->setFlash("news erfolgreich gelöscht");
-			$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "index"));
+			$this->Session->setFlash("deleted successfully News");
+			$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "manager_index"));
 		} else {
-			$this->Session->setFlash("news konnte nicht gelöscht werden");
-			$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "index"));
+			$this->Session->setFlash("News could not be deleted");
+			$this->redirect(array('manager' => true, 'controller' => "newsletters", "action" => "manager_index"));
 		}
 		
 	}

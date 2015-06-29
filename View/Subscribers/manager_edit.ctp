@@ -1,7 +1,7 @@
 <div id="managers-edit-view">
 	
 	<?php
-		echo $this->Form->create("Subscriber",array('url' => array('controller' => 'subscribers', 'action' =>'edit', 'manager' => true)));
+		echo $this->Form->create("Subscriber",array('url' => array('controller' => 'subscribers', 'action' =>'manager_edit', 'manager' => true)));
 	?>
 	
 	<p>
@@ -9,16 +9,54 @@
 		<?php echo $this->Form->input('email',array('label' => false)) ?>
 	</p>
 		<label for="email">subscriptions:</label>
-		<select name="data[Subscriber][campaigns][]" multiple>
-		 	<?php forEach($campaigns as $campaign){
-				if(in_array($campaign['Campaign']['_id'],$this->data['Subscriber']['campaigns']))
-					$selected = ' selected="selected"';
-				else
+
+		 	<?php 
+		 		$a = json_decode($this->data['Subscriber']['campaigns']);
+		 	
+				 	foreach($campaigns as $campaign){
+		 
+		 
+		 	$c = $campaign['Campaign']['name'];
+		 	$d = array($c);
+		 	
+
+
+
+		 	
+
+         
+				 if(in_array($campaign['Campaign']['name'],$a))
+				 {
+					
+					  $checked = "checked";
+					
+
+				 }
+				 else {
+					?>
+				 
+				<?php
+				
+			
 					$selected = '';
-				echo '<option value="'.$campaign['Campaign']['_id'].'"'.$selected.'>'.$campaign['Campaign']['name'].'</option>';
-			} 
+					 $checked = '';
+				}
+	
+
+
+
+
+		?>			
+				
+			
+		
+      <input name="data[Subscriber][campaigns][]" value="<?php echo $campaign['Campaign']['name'];?>" type="checkbox" <?php echo $checked; ?>>
+       <label for="ModelName2"><?php echo $campaign['Campaign']['name'];?></label>
+<?php 
+      } 
 			?>
-		 </select> 
+
+	
 	
 	<p>
 	

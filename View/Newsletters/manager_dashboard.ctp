@@ -16,7 +16,7 @@ echo $this->Html->script('/newsletter/js/libs/g.bar-min');
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2">Anzahl</th>
+                        <th colspan="2">Number</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,13 +24,13 @@ echo $this->Html->script('/newsletter/js/libs/g.bar-min');
                         <td>Newsletters:</td><td><?php echo count($newsletters) ?></td>                        
                     </tr>
                     <tr>
-                        <td>veröffentlichte Newsletters:</td><td><?php echo count($publishedNewsletters) ?></td>                        
+                        <td>published Newsletters:</td><td><?php echo count($publishedNewsletters) ?></td>                        
                     </tr>
                     <tr>
-                        <td>Anmeldungen:</td><td><?php echo count($subscribers) ?></td>                        
+                        <td>registrations:</td><td><?php echo count($subscribers) ?></td>                        
                     </tr>
                     <tr>
-                        <td>Kampagnen:</td><td><?php echo count($campaigns) ?></td>                        
+                        <td>campaigns:</td><td><?php echo count($campaigns) ?></td>                        
                     </tr>
                 </tbody>
             </table>
@@ -41,24 +41,29 @@ echo $this->Html->script('/newsletter/js/libs/g.bar-min');
                     </tr>
                     <tr>
                         <th>Title:</th>                        
-                        <th>erstellt am:</th>
-                        <th>veröffentlicht?:</th>
-                        <th>veröffentlicht am:</th>
+                        <th>Created on:</th>
+                        <th>published?:</th>
+                        <th>published on:</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($newsletters as $newsletter): ?>
                     <tr>
                         <td><?php echo $newsletter['Newsletter']['title'] ?></td>
-                        <td><?php echo $this->Time->nice($newsletter['Newsletter']['created']->sec); ?></td>                        
+                        <td><?php //echo $this->Time->nice($newsletter['Newsletter']['created']->sec); 
+                          echo $this->Time->format($newsletter['Newsletter']['created'],"%b %e %Y, %H:%M");
+                        ?></td>                        
                         <td><?php echo (String)$newsletter['Newsletter']['published'] ?></td>
-                        <td><?php if(!$newsletter['Newsletter']['published']) echo "N/A"; else echo $this->Time->nice($newsletter['Newsletter']['publishedDate']->sec); ?></td>
+                        <td><?php if(!$newsletter['Newsletter']['published']) echo "N/A"; 
+                        else 
+                            echo $this->Time->format($newsletter['Newsletter']['publishedDate'],"%b %e %Y, %H:%M");
+                         //   echo $this->Time->nice($newsletter['Newsletter']['publishedDate']->sec); ?></td>
                     </tr>                    
                     <?php endforeach; ?>
                 </tbody>
             </table>
             <div><?php //debug($subscribers) ?></div>
-            <div><?php debug($newsletters) ?></div>
+            <div><?php //debug($newsletters) ?></div>
         </div>
     </section>
     <secion id="graphs">

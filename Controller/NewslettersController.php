@@ -33,8 +33,8 @@ class NewslettersController extends NewsletterAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();		
 		$this->Auth->allow();
-		if(!fileExistsInPath(APP.DS.'tmp'.DS.'newsletter_init.lock'))
-			$this->init();
+		// if(!fileExistsInPath(APP.DS.'tmp'.DS.'newsletter_init.lock'))
+		// 	$this->init();
 
 	}
 
@@ -55,7 +55,7 @@ class NewslettersController extends NewsletterAppController {
 	} 
         
     public function index(){
-        $newsletters = $this->Newsletter->find('all', array('conditions' => array('Newsletter.publish' => '1')));
+        $newsletters = $this->Newsletter->find('all', array('conditions' => array('Newsletter.published' => '1')));
         $this-> set('newsletters', $newsletters);
     }
 	
@@ -70,7 +70,7 @@ class NewslettersController extends NewsletterAppController {
 	
 	public function view($id = null){
 		$this->Newsletter->id = $id;
-		$this->set('news', $this->Newsletter->read());
+		$this->set('newsletter', $this->Newsletter->read());
 		//counter increment 
 		$this->Newsletter->incrementCounter();
 	}

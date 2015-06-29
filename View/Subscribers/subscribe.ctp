@@ -1,12 +1,16 @@
-<h1> Newsletter anmeldung </h1>
+<h1> Newsletter Sign up </h1>
 
-<p class="errors">Errors:</p>
+
 <?php
 	
     echo $this->Form->error('email');
 		
-    if(isset($validationError))
+    if(isset($validationError)) {
+        ?>
+      <p class="errors">Errors:</p>  
+      <?php
 	echo $validationError;
+}
 ?>
 
 <?php
@@ -19,7 +23,7 @@
 </p>
 
 <p>		
-    <?php echo $this->Form->button('anmelden',array('type' => "submit")) ?>
+    <?php echo $this->Form->button('Subscribe',array('type' => "submit")) ?>
 </p>
 	
 <?php

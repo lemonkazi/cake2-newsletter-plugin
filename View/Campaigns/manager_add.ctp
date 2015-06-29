@@ -4,7 +4,7 @@
 	<?php
 		echo $this->Form->create("Campaign",array('url' => array(
 																		'controller' => 'campaigns',
-																		'action' =>'add',
+																		'action' =>'manager_add',
 																		'manager' => true,
 																		'plugin' => "newsletter")));
 	?>
@@ -16,7 +16,7 @@
 	
 	
 	<p>
-		<label for="content">Beschreibung:</label>
+		<label for="content">description:</label>
 		<?php echo $this->Form->input('description'); ?> 
 	</p>
 

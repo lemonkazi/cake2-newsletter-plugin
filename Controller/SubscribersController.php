@@ -32,7 +32,7 @@ class SubscribersController extends NewsletterAppController {
 		$this->layout = "public";
 		if($this->request->is('post') === true & !empty($this->data)){
 			$data = $this->request->data;
-			$this->Subscriber->Behaviors->attach('Mongodb.SqlCompatible');
+			//$this->Subscriber->Behaviors->attach('Mongodb.SqlCompatible');
 			$data['Subscriber']['email'] = str_replace(" ", "", $this->data['Subscriber']['email']);
 
 			if($this->Subscriber->save($data)){
@@ -46,7 +46,7 @@ class SubscribersController extends NewsletterAppController {
 				if($this->request->is('ajax')){
 					$this->render(ajax_failed);
 				} else {			
-					$this->Session->setFlash("Email konnte nicht angelegt werden");
+					$this->Session->setFlash("Email could not warden created");
 					$this->render('subscribefailed');
 					return;
 				}
@@ -121,10 +121,16 @@ class SubscribersController extends NewsletterAppController {
 			$this->request->data = $this->Subscriber->read();
 			
 		 } else {
-			if ($this->Subscriber->save($this->request->data)) {
+		 	// pr($this->request->data);
+		 	// exit();
+		 	$data = $this->request->data;
+		 	$data['Subscriber']['campaigns']=json_encode($data['Subscriber']['campaigns']);
+		 	
+			if ($this->Subscriber->save($data)) {
+	
 				
 				$this->Session->setFlash("Subscriber angelegt");
-				$this->redirect(array('manager' => true, 'controller' => "subscribers", "action" => "index"));
+				$this->redirect(array('manager' => true, 'controller' => "subscribers", "action" => "manager_index"));
 			} else {
 				$this->Session->setFlash("Subscriber konnte nicht angelegt werden");
 				$this->render();

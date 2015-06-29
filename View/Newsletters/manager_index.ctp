@@ -1,4 +1,4 @@
-<h1>Newsletters Übersicht</h1>
+<h1>Newsletters overview</h1>
 
 <?php echo $this->Html->link('Add newsletter',array('manager' => true, 'controller' => 'newsletters', 'action' => 'add'))?>
 	
@@ -11,12 +11,13 @@
 		<p>ViewsCount: <? echo $new['Newsletter']['viewCounter']?> </p>
 		<p>publishCount: <? echo $new['Newsletter']['publishCounter']?> </p>
 		<p>published: <? echo $new['Newsletter']['published']?> </p>
-		<?php echo $this->Html->link('edit',array('manager' => true, 'controller' => 'newsletters', 'action' => 'edit',$new['Newsletter']['_id']))?>
+		<?php echo $this->Html->link('edit',array('manager' => true, 'controller' => 'newsletters', 'action' => 'manager_edit',$new['Newsletter']['_id']))?>
         <?php echo $this->Html->link('delete',array('manager' => true, 'controller' => 'newsletters', 'action' => 'delete',$new['Newsletter']['_id']))?>
 		<?php echo $this->Html->link('publish',array('manager' => true, 'controller' => 'newsletters', 'action' => 'publish',$new['Newsletter']['_id']))?>
 		<p><?php echo $new['Newsletter']['content'] ?></p>
-		<p>Erstellt am: <?php echo $this->Time->niceShort($new['Newsletter']['created']->sec) ?> </p>
-		<p>Bearbeitet am: <?php echo $this->Time->niceShort($new['Newsletter']['modified']->sec) ?> </p>
+	
+			<p>created on: <?php echo $this->Time->format($new['Newsletter']['created'],"%b %e %Y, %H:%M"); //echo $this->Time->niceShort($subscriber['Subscriber']['created']->sec) ?> </p>
+<p>edited on: <?php echo $this->Time->format($new['Newsletter']['modified'],"%b %e %Y, %H:%M"); //echo $this->Time->niceShort($subscriber['Subscriber']['created']->sec) ?> </p>
 		
 	</div>
 	<?php

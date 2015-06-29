@@ -9,13 +9,6 @@
  * @link          http://roadbees.de
  * @since         Roadbees v 0.1
  */
-// App::uses('AppController','Controller');
-// class NewsletterAppController extends AppController {
-        
-//         public $components = array('Auth');
-//         public $helpers = array('Time');
-        
-// }
 
 class CampaignsController extends NewsletterAppController {
 
@@ -38,7 +31,7 @@ class CampaignsController extends NewsletterAppController {
 	 */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		//$this->Auth->allow('*');	
+		$this->Auth->allow('*');	
 	}
 	
 	/**
@@ -57,8 +50,8 @@ class CampaignsController extends NewsletterAppController {
 	public function manager_edit($campaignid = null) {
 		
 		if(is_null($campaignid)) {
-			$this->Session->setFlash("campaign ID is missing");
-			$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "manager_index"));
+			$this->Session->setFlash("Kampagne-Id fehlt");
+			$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "index"));
 		}
 		
 		//$this->Campaign->Behaviors->attach('Mongodb.SqlCompatible');
@@ -69,10 +62,10 @@ class CampaignsController extends NewsletterAppController {
 		}else{
 			$this->Campaign->set($this->data);
 			if($this->Campaign->save()) {
-				$this->Session->setFlash("campaign saved");
-				$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "manager_index"));
+				$this->Session->setFlash("Kampagne gespeichert");
+				$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "index"));
 			} else {			
-				$this->Session->setFlash("Campaign could not be saved");			
+				$this->Session->setFlash("Kampagne konnte nicht angelegt werden");			
 			}
 		}
 	}
@@ -88,10 +81,10 @@ class CampaignsController extends NewsletterAppController {
 		if($this->request->is('post') && !empty($this->data)) {			
 			$this->Campaign->create();						
 			if($this->Campaign->save($this->data)) {
-				$this->Session->setFlash("campaign created");
-				$this->redirect(array('manager' => true,'plugin' => 'newsletter', 'controller' => "campaigns", "action" => "manager_index"));
+				$this->Session->setFlash("Kampagne angelegt");
+				$this->redirect(array('manager' => true,'plugin' => 'newsletter', 'controller' => "campaigns", "action" => "index"));
 			} else {			
-				$this->Session->setFlash("Campaign could not be created");
+				$this->Session->setFlash("Kampagne konnte nicht angelegt werden");
 				$this->render();
 			}
 		}
@@ -104,8 +97,8 @@ class CampaignsController extends NewsletterAppController {
 	public function manager_view($campaignid = null) {
 		
 		if(is_null($campaignid)) {
-			$this->Session->setFlash("campaign ID is missing");
-			$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "manager_index"));
+			$this->Session->setFlash("Kampagne-Id fehlt");
+			$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "index"));
 		}
 		$this->Campaign->id = $campaignid;
 		$campaign = $this->Campaign->read();
@@ -119,12 +112,12 @@ class CampaignsController extends NewsletterAppController {
 	public function manager_delete($campaignid = null) {
 		if(!is_null($campaignid)) {
 			if($this->Campaign->delete($campaignid)) {
-				$this->Session->setFlash("campaign deleted ");
-				$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "manager_index"));	
+				$this->Session->setFlash("Kampagne gelöscht");
+				$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "index"));	
 			}
 		} else {
-			$this->Session->setFlash("campaign ID is missing");
-			$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "manager_index"));
+			$this->Session->setFlash("Kampagne-Id fehlt");
+			$this->redirect(array('manager' => true, 'controller' => "campaigns", "action" => "index"));
 		}
 	}
 }

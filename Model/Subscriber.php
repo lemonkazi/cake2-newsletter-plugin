@@ -11,7 +11,10 @@
  * @link          http://roadbees.de
  * @since         Roadbees v 0.1
  */
+// App::uses('AppModel','Model');
+// class NewsletterAppModel extends AppModel {
 
+// }
 class Subscriber extends NewsletterAppModel {
 
     /**
@@ -35,12 +38,12 @@ class Subscriber extends NewsletterAppModel {
     * @var array
     * @access public
     */
-    public $mongoSchema = array( 
-        'email'     => array('type' => 'string'),
-        'campaigns' => array('type' => 'array'),
-        'created'   => array('type' => 'datetime'),
-        'modified'  => array('type' => 'datetime') 
-    );
+    // public $mongoSchema = array( 
+    //     'email'     => array('type' => 'string'),
+    //     'campaigns' => array('type' => 'array'),
+    //     'created'   => array('type' => 'datetime'),
+    //     'modified'  => array('type' => 'datetime') 
+    // );
     
     
     public $validate = array(
@@ -48,11 +51,12 @@ class Subscriber extends NewsletterAppModel {
         'email'=> array('rule' => 'isUnique','message' => "Diese Email ist schon vergeben")
     );
     
-    public function beforeSave(){
-        //debug($this->data);
-        $this->schema(true);
-        return true;
-    }
+    // public function beforeSave(){
+    //     debug($this->data);
+    //    // pr($this->data);
+    //     $this->schema(true);
+    //     return true;
+    // }
 
     
     

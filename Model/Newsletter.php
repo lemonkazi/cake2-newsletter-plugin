@@ -11,6 +11,10 @@
  * @link          http://roadbees.de
  * @since         Roadbees v 0.1
  */
+// App::uses('AppModel','Model');
+// class NewsletterAppModel extends AppModel {
+
+// }
 
 class Newsletter extends NewsletterAppModel {
 
@@ -26,7 +30,7 @@ class Newsletter extends NewsletterAppModel {
     var $primaryKey = '_id';
 
 
-    public $hasAndBelongsToMany = array('Campaign' => array('className' => 'Campaign'));
+  //  public $hasAndBelongsToMany = array('Campaign' => array('className' => 'Campaign'));
     
     /**
     * schema
@@ -35,14 +39,14 @@ class Newsletter extends NewsletterAppModel {
     * @access public
     */
 
-    public $mongoSchema = array(
-        'title' =>  array('type'=>'string'),
-		'content'=> array('type'=>'string'),
-        'campaigns' => array('type' => 'array'),
-		'created'=> array('type'=>'datetime'),
-		'modified'=> array('type'=>'datetime'),
-        'published' => array('type' => 'tinyint')
-    );
+  //   public $mongoSchema = array(
+  //       'title' =>  array('type'=>'string'),
+		// 'content'=> array('type'=>'string'),
+  //       'campaigns' => array('type' => 'array'),
+		// 'created'=> array('type'=>'datetime'),
+		// 'modified'=> array('type'=>'datetime'),
+  //       'published' => array('type' => 'tinyint')
+  //   );
     
     
     var $validate = array(
@@ -59,9 +63,9 @@ class Newsletter extends NewsletterAppModel {
     	$this->save();
     }
 
-    public function beforeSave(){   
-        return true;
-    }
+    // public function beforeSave(){   
+    //     return true;
+    // }
     
     
    

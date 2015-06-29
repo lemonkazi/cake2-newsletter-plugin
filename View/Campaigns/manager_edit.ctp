@@ -1,10 +1,10 @@
 <div class="newsletter-plugin" id="campaigns-manager-edit">
-<?php echo $this->Html->link('Übersicht',array('action' => 'index', 'manager' => true,'controller' => 'campaigns', 'plugin' => 'newsletter')) ?>
+<?php echo $this->Html->link('overview',array('action' => 'manager_index', 'manager' => true,'controller' => 'campaigns', 'plugin' => 'newsletter')) ?>
 <h1>Kampagne bearbeiten</h1>
 	<?php
 		echo $this->Form->create("Campaign",array('url' => array(
 																		'controller' => 'campaigns',
-																		'action' =>'edit',
+																		'action' =>'manager_edit',
 																		'manager' => true																		
 																	)
 																)

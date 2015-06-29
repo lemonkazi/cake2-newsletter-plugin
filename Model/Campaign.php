@@ -23,18 +23,18 @@ class Campaign extends NewsletterAppModel {
 	
 	public $primaryKey = '_id';
 	
-	public $actsAs = array('Mongodb.SqlCompatible');
+	//public $actsAs = array('Mongodb.SqlCompatible');
 	
 	 /**
 	 *
 	 *
 	 */
 	
-	public $mongoSchema = array(
-			'name' => array('type'=>'string'),
-			'description' => array('type'=>'text'),
-			'active' =>  array('type'=>'tinyint')			
-	);
+	// public $mongoSchema = array(
+	// 		'name' => array('type'=>'string'),
+	// 		'description' => array('type'=>'text'),
+	// 		'active' =>  array('type'=>'tinyint')			
+	// );
 	
 	/**
 	 *

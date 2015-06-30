@@ -66,7 +66,8 @@
 
 					
 					<?php
-						echo $this->Form->create("Newsletter",array('url' => array('controller' => 'newsletters', 'action' =>'manager_edit', 'manager' => true)));
+					
+						echo $this->Form->create("Newsletter",array('url' => array('controller' => 'newsletters', 'action' =>'manager_edit', 'manager' => true),'type' => 'file'));
 					?>
 					
 					<p>
@@ -144,7 +145,9 @@
 							?>
 						<!-- </select>  -->
 					</p>
-					
+					</p>
+					<input type="file" name="data[Images][]" multiple="multiple">
+					<p>
 					<p>		
 						<?php echo $this->Form->button('save',array('type' => "submit")) ?>
 					</p>

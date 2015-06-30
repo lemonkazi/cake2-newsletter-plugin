@@ -187,6 +187,14 @@ class NewslettersController extends NewsletterAppController {
 		 } else {
 		 		$data = $this->request->data;
 		 	$data['Newsletter']['campaigns'] = json_encode($data['Newsletter']['campaigns']);
+		 	//files 
+			if($this->request->data['Images']){
+				$fileOK = $this->uploadFiles('newsletter', $this->request->data['Images']);
+				if(!array_key_exists('urls', $fileOK)) {
+					$this->Session->setFlash("File error");
+					//debug($fileOK);
+				}
+			}	
 		 	//$this->Newsletter->Behaviors->attach('Mongodb.SqlCompatible');
 			if ($this->Newsletter->save($data)) {	
 				$this->Session->setFlash("Newsletter angelegt");
@@ -214,6 +222,8 @@ class NewslettersController extends NewsletterAppController {
 		$this->Newsletter->id = $newsid;
 		
 		$data = $this->Newsletter->read();
+
+		//$data['News']['content']
 		//$data['Email']['content'] = $this->Markitup->parse($data['News']['content'],'markdown');
 		$counter = $this->sendEmailToSubscribers($data);
 		if($counter > 0) {
@@ -261,9 +271,16 @@ class NewslettersController extends NewsletterAppController {
 		//define chunk size;
 		$chunk_size = 1000;
 		$sleep = 1; //what makes sense here?
-		    
-		//send mail		
-		$email = new CakeEmail("smtp");
+
+	
+              
+                $mail_content = __('Name:', 'beopen') . $data['Newsletter']['title'] . PHP_EOL .
+                                            __('Email:', 'beopen') . $data['Newsletter']['content'] . PHP_EOL .
+                                            __('Phone Number:', 'beopen')  . $data['Newsletter']['created']  . PHP_EOL .
+                                            __('Message:', 'beopen') . $data['Newsletter']['published'] . PHP_EOL ;
+
+
+		$email = new CakeEmail();
 
 		//filter active
 		$active_campaigns = array();
@@ -271,7 +288,7 @@ class NewslettersController extends NewsletterAppController {
 
 		$subscribers = $this->Subscriber->find('all');
 
-		Configure::load('kongress');
+	//	Configure::load('kongress');
 
 		$email_chunks = array_chunk($subscribers,$chunk_size);
 		
@@ -283,12 +300,14 @@ class NewslettersController extends NewsletterAppController {
 				
 				$email->viewVars(array('info' => $data));
 
-				$email->subject(Configure::read('Kongress.subject'))
-				->from(Configure::read('Kongress.absender'))
+				$email->config('custom')
+				->subject('test')
+				->from('lemonpstu09@gmail.com')
 				->to($email_adress['Subscriber']['email'])
-				->template('newsletter/info')
-				->emailFormat('both')
-				->send();
+				->template('contactForm')
+				->emailFormat('html')
+				//->emailFormat('both')
+				->send($mail_content);
 			}
 
 			sleep($sleep);	

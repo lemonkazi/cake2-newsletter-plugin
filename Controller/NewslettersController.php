@@ -222,12 +222,16 @@ class NewslettersController extends NewsletterAppController {
 		$this->Newsletter->id = $newsid;
 		
 		$data = $this->Newsletter->read();
+		$publishdate = date("Y-m-d H:i:s"); 
+		//pr($publishdate);
+		//exit();
 
 		//$data['News']['content']
 		//$data['Email']['content'] = $this->Markitup->parse($data['News']['content'],'markdown');
 		$counter = $this->sendEmailToSubscribers($data);
 		if($counter > 0) {
-			$this->Newsletter->set(array('publishCounter' => $counter, 'published' => 1));
+			$this->Newsletter->set(array('publishCounter' => $counter, 'publishedDate' => $publishdate, 'published' => 1));
+			//$this->Newsletter->set(array('publishCounter' => $counter, 'published' => 1));
 			$this->Newsletter->save();
 			
 			$this->Session->setFlash("Newsletter published successfully");

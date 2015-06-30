@@ -36,16 +36,7 @@
                     </div>
                     <ul class="nav nav-list">
                         <li class="nav-header">Inbox</li>
-                         <!-- <li class="active"><a href="#">Today</a></li>
-                        <li><a href="#">Important</a></li>
-                        <li><a href="#">Last week</a></li>
-                        <li><a href="#">All emails</a></li>
-                        <li class="nav-header">Outbox</li>
-                        <li><a href="#">Sent mail</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Drafts</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Archive</a></li> -->
+                        
                         <li><?php echo $this->Html->link('Dashboard ',array('manager' => true, 'controller' => 'newsletters', 'action' => 'manager_dashboard', 'plugin' => 'newsletter'))?></li>
 						<li><?php echo $this->Html->link('Campaigns Overview',array('manager' => true, 'controller' => 'campaigns', 'action' => 'manager_index', 'plugin' => 'newsletter'))?></li>
 						<li><?php echo $this->Html->link('Newsletters Overview',array('manager' => true, 'controller' => 'newsletters', 'action' => 'manager_index', 'plugin' => 'newsletter'))?></li>

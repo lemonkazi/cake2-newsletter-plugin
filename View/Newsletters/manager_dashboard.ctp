@@ -8,69 +8,197 @@ echo $this->Html->script('/newsletter/js/libs/g.pie-min');
 echo $this->Html->script('/newsletter/js/libs/g.bar-min'); 
 ?>
 
-<div id="newsletter-plugin-index"> 
-    <h1>Dashboard</h1>
-    <section id="newsletter-stats">
-        <h2>Stats</h2>
-        <div id="stats-tables">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="2">Number</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Newsletters:</td><td><?php echo count($newsletters) ?></td>                        
-                    </tr>
-                    <tr>
-                        <td>published Newsletters:</td><td><?php echo count($publishedNewsletters) ?></td>                        
-                    </tr>
-                    <tr>
-                        <td>registrations:</td><td><?php echo count($subscribers) ?></td>                        
-                    </tr>
-                    <tr>
-                        <td>campaigns:</td><td><?php echo count($campaigns) ?></td>                        
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="4">Newsletters Details</th>
-                    </tr>
-                    <tr>
-                        <th>Title:</th>                        
-                        <th>Created on:</th>
-                        <th>published?:</th>
-                        <th>published on:</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($newsletters as $newsletter): ?>
-                    <tr>
-                        <td><?php echo $newsletter['Newsletter']['title'] ?></td>
-                        <td><?php //echo $this->Time->nice($newsletter['Newsletter']['created']->sec); 
-                          echo $this->Time->format($newsletter['Newsletter']['created'],"%b %e %Y, %H:%M");
-                        ?></td>                        
-                        <td><?php echo (String)$newsletter['Newsletter']['published'] ?></td>
-                        <td><?php if(!$newsletter['Newsletter']['published']) echo "N/A"; 
-                        else 
-                            echo $this->Time->format($newsletter['Newsletter']['publishedDate'],"%b %e %Y, %H:%M");
-                         //   echo $this->Time->nice($newsletter['Newsletter']['publishedDate']->sec); ?></td>
-                    </tr>                    
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <div><?php //debug($subscribers) ?></div>
-            <div><?php //debug($newsletters) ?></div>
-        </div>
-    </section>
-    <secion id="graphs">
-        <h2>Graphs</h2>
-        <div id="newslettersByViews" style="width: 640px; height: 480px;"></div>
-    </secion>
-</div>
+<div id="content" class="clearfix">
+    <div class="contentwrapper"><!--Content wrapper-->
+        
+        <div class="heading">
+
+            <h3>update subscription </h3>                    
+
+            <div class="resBtnSearch">
+                <a href="#"><span class="icon16 icomoon-icon-search-3"></span></a>
+            </div>
+
+            <div class="search">
+
+                <form id="searchform" action="search.html">
+                    <input type="text" id="tipue_search_input" class="top-search text" placeholder="Search here ...">
+                    <input type="submit" id="tipue_search_button" class="search-btn nostyle" value="">
+                </form>
+                
+            </div><!-- End search -->
+
+
+            
+
+        </div><!-- End .heading-->
+
+
+        <!-- <h1> Subscribers</h1> -->
+          <!-- Build page from here: -->
+        <div class="row-fluid">
+
+            <div class="span2">
+                <div class="email-nav well">
+                    <div class="composeBtn">
+                        <button href="#" class="btn btn-danger btn-block">Compose</button>
+                    </div>
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Inbox</li>
+                        
+                        <li><?php echo $this->Html->link('Dashboard ',array('manager' => true, 'controller' => 'newsletters', 'action' => 'manager_dashboard', 'plugin' => 'newsletter'))?></li>
+                        <li><?php echo $this->Html->link('Campaigns Overview',array('manager' => true, 'controller' => 'campaigns', 'action' => 'manager_index', 'plugin' => 'newsletter'))?></li>
+                        <li><?php echo $this->Html->link('Newsletters Overview',array('manager' => true, 'controller' => 'newsletters', 'action' => 'manager_index', 'plugin' => 'newsletter'))?></li>
+                        <li><?php echo $this->Html->link('Subscribers Overview',array('manager' => true, 'controller' => 'subscribers', 'action' => 'manager_index', 'plugin' => 'newsletter'))?></li>
+                    </ul>
+                    
+                    
+                    
+                </div><!-- End .email-nav-->
+            </div><!-- End .span2-->
+
+            <div class="span10">
+                <div id="newsletter-plugin-index"> 
+                    <h1>Dashboard</h1>
+
+                    <h2>Stats</h2>
+                        <div id="stats-tables">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Newsletters:</td><td><?php echo count($newsletters) ?></td>                        
+                                    </tr>
+                                    <tr>
+                                        <td>published Newsletters:</td><td><?php echo count($publishedNewsletters) ?></td>                        
+                                    </tr>
+                                    <tr>
+                                        <td>registrations:</td><td><?php echo count($subscribers) ?></td>                        
+                                    </tr>
+                                    <tr>
+                                        <td>campaigns:</td><td><?php echo count($campaigns) ?></td>                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="email-content">
+
+                            <div class="email-header">
+
+                                <div class="btn-toolbar" style="margin: 0;">
+                                    <div class="btn-group">
+                                        
+                                    </div>
+                                    <!-- <div class="btn-group">
+                                        <button class="btn tip" title="Refresh inbox"><span class="icon16 icomoon-icon-refresh"></span></button>
+                                    </div> -->
+                                    <div class="btn-group">
+                                        <button class="btn tip" title="Archive"><span class="icon16 icomoon-icon-box"></span></button>
+                                        <button class="btn tip" title="Mark as spam"><span class="icon16 icomoon-icon-blocked"></span></button>
+                                        <button class="btn tip" title="Delete"><span class="icon16 icomoon-icon-remove-5"></span></button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                            More
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            
+                                            <li><a href="#">Mark as unread</a></li>
+                                            <li><a href="#">Add star</a></li>
+                                            <li><a href="#">Filter message</a></li>
+                                            <li><a href="#">Mute</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div><!-- End Email-header -->
+
+
+                            <div class="box plain">
+
+                                <div class="title">Newsletters Details</div>
+
+                                <div class="content noPad clearfix">
+                                    <table cellpadding="0" cellspacing="0" border="0" class="emailTable display table" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="checkAll">
+                                                    <input type="checkbox" id="selectall" value="all" class="nostyle tip" title="Select All" />  
+                                                </th>
+                                                <th><span class="icon16 icomoon-icon-star-3"></span></th>
+                                                <th>Title</th>
+                                                <th>Created</th>
+                                                <th>Published</th>
+                                                 
+                                                <th>Published on</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <?php foreach($newsletters as $newsletter): ?>
+                                            <tr>
+                                                <td class="check"><input type="checkbox" id="checkbox" class="nostyle" value="1" /></td>
+                                                <td class="star"><span class="icon16 icomoon-icon-star"></span></td>
+                                                <td class="from">
+                                                    <a href="#" class="unread link">
+                                                    <span class="label marginL10"><?php echo $newsletter['Newsletter']['title'] ?></span><span class="label label-success marginL10">3</span>
+                                                    </a>
+                                                </td>
+                                                <td class="subject">
+                                                    <a href="#" class="unread link">  <?php //echo $this->Time->nice($newsletter['Newsletter']['created']->sec); 
+                                                  echo $this->Time->format($newsletter['Newsletter']['created'],"%b %e %Y, %H:%M");
+                                                ?> </a>
+                                                </td>
+                                               
+                                                <td class="subject">
+                                                    <a href="#" class="unread link">  <?php echo (String)$newsletter['Newsletter']['published'] ?> </a>
+                                                </td>
+                                                 
+                                                
+                                                
+                                                
+                                                <td class="attachment">
+                                                   
+                                                   <?php if(!$newsletter['Newsletter']['published']) echo "N/A"; 
+                                                else 
+                                                    echo $this->Time->format($newsletter['Newsletter']['publishedDate'],"%b %e %Y, %H:%M");
+                                                 //   echo $this->Time->nice($newsletter['Newsletter']['publishedDate']->sec); ?>
+                                                </td>
+                                                
+                                            </tr>
+                                            <?php
+                                        endforeach;
+                                        ?>
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div><!-- End .box -->
+
+                        </div>
+
+
+
+
+
+
+
+
+                   
+                    <secion id="graphs">
+                        <h2>Graphs</h2>
+                        <div id="newslettersByViews" style="width: 640px; height: 480px;"></div>
+                    </secion>
+                </div>
+            </div><!-- End .span10-->
+    </div><!-- End .row-fluid -->
 
 <script>
     //get the json models

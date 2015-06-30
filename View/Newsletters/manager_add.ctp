@@ -95,8 +95,8 @@
 								 	foreach($campaigns as $campaign){
 						 
 						 
-?>
-<input name="data[Newsletter][campaigns][]" value="<?php echo $campaign['Campaign']['name'];?>" type="checkbox" <?php //echo $checked; ?>>
+										?>
+										<input name="data[Newsletter][campaigns][]" value="<?php echo $campaign['Campaign']['name'];?>" type="checkbox" <?php //echo $checked; ?>>
 									       <label for="ModelName2"><?php echo $campaign['Campaign']['name'];?></label>
 										<?php 
 									} ?>

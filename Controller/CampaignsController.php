@@ -23,6 +23,7 @@ class CampaignsController extends NewsletterAppController {
 	 *
 	 */
 	public $name = "Campaigns";
+	var $layout = 'admin';
 	
 	/**
 	 *

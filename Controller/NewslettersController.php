@@ -71,15 +71,20 @@ class NewslettersController extends NewsletterAppController {
 	 * @param {string} id newsletterId
 	 * @public
 	 */
-	
+
+
 	public function view($id = null){
+
 		$this->Newsletter->id = $id;
 		$this->set('newsletter', $this->Newsletter->read());
-		//counter increment 
-		$this->Newsletter->incrementCounter();
+		 
+         $this->Newsletter->increase('viewCounter', 1);
+        
 	}
         
-        
+
+ 
+     
     /* MANAGER FUNCTIONS */
         
 	/**

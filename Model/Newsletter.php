@@ -58,14 +58,65 @@ class Newsletter extends NewsletterAppModel {
     
     
     public function incrementCounter(){
+        $counter=0;
     	$counter = $this->field("viewCounter");
-    	$this->set("viewCounter", $counter +1);
-    	$this->save();
+        $this->saveField('viewCounter',$counter+1, true);
     }
-
+//$this->decrease('viewCounter', 10);
     // public function beforeSave(){   
     //     return true;
     // }
+
+
+    
+ /**
+ * Updates a specific field with a given value
+ *
+ * @param $field Field name to update
+ * @param $value The step to use to increase the $field
+ * @return mixed
+ */
+private function _change($field, $value, $sign) {
+ 
+    $schema = $this->schema();
+ 
+    if( ! isset( $schema[$field] ) ) {
+        throw new Exception("No such field: " . $field, 1);
+    }
+ 
+    if( ! in_array( $sign, array('+', '-') ) ) {
+        throw new Exception("Not a valid mathematic sign", 1);
+    }
+ 
+    $sql = "UPDATE `" . $this->table . "` SET `" . $field . "` = `" . $field . "` " . $sign . " ? WHERE `" . $this->primaryKey . "` = ? LIMIT 1";
+    $result = $this->query($sql, array( $value, $this->id));
+ 
+    return $result;
+}
+ 
+/**
+ * Increase a specific $field with a given $value
+ *
+ * @param $field Field name to update
+ * @param $value The step to use to increase the $field
+ * @return mixed
+ */
+public function decrease($field, $value) {
+ 
+    return $this->_change($field, $value, '-');
+}
+ 
+/**
+ * Decrease a specific $field with a given $value
+ *
+ * @param $field Field name to update
+ * @param $value The step to use to increase the $field
+ * @return mixed
+ */
+public function increase($field, $value) {
+ 
+    return $this->_change($field, $value, '+');
+}
     
     
    

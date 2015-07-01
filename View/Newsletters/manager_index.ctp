@@ -129,7 +129,7 @@
                                         <td class="star"><span class="icon16 icomoon-icon-star"></span></td>
                                         <td class="from">
                                             <a href="#" class="unread link">
-                                            <span class="label marginL10"><?php echo $this->Html->link($new['Newsletter']['title'],array('manager' => false, 'controller' => 'newsletters', 'action' => 'view',$new['Newsletter']['_id']))?></span><span class="label label-success marginL10">3</span>
+                                            <span class="label marginL10"><?php echo $this->Html->link($new['Newsletter']['title'],array('manager' => true, 'controller' => 'newsletters', 'action' => 'manager_view',$new['Newsletter']['_id']))?></span><span class="label label-success marginL10">3</span>
                                             </a>
                                         </td>
                                         <td class="subject">
